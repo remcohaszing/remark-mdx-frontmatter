@@ -1,0 +1,5 @@
+root: true
+extends:
+  - remcohaszing
+rules:
+  import/no-extraneous-dependencies: off

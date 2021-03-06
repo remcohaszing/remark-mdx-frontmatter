@@ -1,0 +1,55 @@
+on:
+  - pull_request
+  - push
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: ESLint
+        run: |
+          yarn --frozen-lockfile
+          yarn eslint .
+
+  jest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12, 14]
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Test
+        run: |
+          yarn --frozen-lockfile
+          yarn test
+
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Prettier
+        run: |
+          yarn --frozen-lockfile
+          yarn prettier .
+
+  tsc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: TypeScript
+        run: |
+          yarn --frozen-lockfile
+          yarn tsc
