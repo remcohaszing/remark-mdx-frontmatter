@@ -1,7 +1,7 @@
 # remark-mdx-frontmatter
 
-[![github actions][github actions badge]][github actions] [![codecov][codecov badge]][codecov]
-[![npm][npm badge]][npm] [![prettier][prettier badge]][prettier]
+[![github actions][github actions badge]][github actions] [![npm][npm badge]][npm]
+[![prettier][prettier badge]][prettier]
 
 > A [remark][] plugin for converting frontmatter metadata into MDX exports
 
@@ -64,8 +64,8 @@ top-level frontmatter nodes other than objects, or if the frontmatter content co
 aren’t valid JavaScript identifiers.
 
 [github actions badge]:
-  https://github.com/remcohaszing/remark-mdx-frontmatter/workflows/ci/badge.svg
-[github actions]: https://github.com/remcohaszing/remark-mdx-frontmatter/actions
+  https://github.com/remcohaszing/remark-mdx-frontmatter/actions/workflows/ci.yml/badge.svg
+[github actions]: https://github.com/remcohaszing/remark-mdx-frontmatter/actions/workflows/ci.yml
 [npm badge]: https://img.shields.io/npm/v/remark-mdx-frontmatter
 [npm]: https://www.npmjs.com/package/remark-mdx-frontmatter
 [prettier badge]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg
