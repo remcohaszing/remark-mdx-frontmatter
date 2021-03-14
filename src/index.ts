@@ -1,4 +1,5 @@
 import { Program } from 'estree';
+import { name as isValidIdentifierName } from 'estree-util-is-identifier-name';
 import { Value, valueToEstree } from 'estree-util-value-to-estree';
 import { load } from 'js-yaml';
 import { parse } from 'toml';
@@ -24,6 +25,12 @@ export const remarkMdxFrontmatter: Attacher<[RemarkMdxFrontmatterOptions?]> = ({
   ast,
 ) => {
   const imports: Node[] = [];
+
+  if (name && !isValidIdentifierName(name)) {
+    throw new Error(
+      `If name is specified, this should be a valid identifier name, got: ${JSON.stringify(name)}`,
+    );
+  }
 
   visit(ast as Parent, (node) => {
     let data: Value;
@@ -54,11 +61,20 @@ export const remarkMdxFrontmatter: Attacher<[RemarkMdxFrontmatterOptions?]> = ({
                 type: 'VariableDeclaration',
                 kind: 'const',
                 declarations: Object.entries(name ? { [name]: data } : data).map(
-                  ([identifier, value]) => ({
-                    type: 'VariableDeclarator',
-                    id: { type: 'Identifier', name: identifier },
-                    init: valueToEstree(value),
-                  }),
+                  ([identifier, value]) => {
+                    if (!isValidIdentifierName(identifier)) {
+                      throw new Error(
+                        `Frontmatter keys should be valid identifiers, got: ${JSON.stringify(
+                          identifier,
+                        )}`,
+                      );
+                    }
+                    return {
+                      type: 'VariableDeclarator',
+                      id: { type: 'Identifier', name: identifier },
+                      init: valueToEstree(value),
+                    };
+                  },
                 ),
               },
             },

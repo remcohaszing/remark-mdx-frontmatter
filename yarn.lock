@@ -1237,6 +1237,11 @@ estree-util-is-identifier-name@^1.0.0:
   resolved "https://registry.yarnpkg.com/estree-util-is-identifier-name/-/estree-util-is-identifier-name-1.0.0.tgz#3f9b8ae3e9d661858752ce73450f37dca160f029"
   integrity sha512-QM4F0ZUqsVDYLSefbbMgx0rVClS5YgFgBV7PFUyIOb6t9M7IhKGuaeLNIfCj6m11NxT8bXfGjMcFWTjMnYoDbg==
 
+estree-util-is-identifier-name@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/estree-util-is-identifier-name/-/estree-util-is-identifier-name-1.1.0.tgz#2e3488ea06d9ea2face116058864f6370b37456d"
+  integrity sha512-OVJZ3fGGt9By77Ix9NhaRbzfbDV/2rx9EP7YIDJTmsZSEc5kYn2vWcNccYyahJL2uAQZK2a5Or2i0wtIKTPoRQ==
+
 estree-util-value-to-estree@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/estree-util-value-to-estree/-/estree-util-value-to-estree-1.0.0.tgz#7e0cb9b6cb288673dc149df94451c3e6207d7336"
