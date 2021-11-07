@@ -5,7 +5,6 @@ import { Root, YAML } from 'mdast';
 import { MDXJSEsm } from 'mdast-util-mdx';
 import { parse } from 'toml';
 import { Attacher } from 'unified';
-import * as visit from 'unist-util-visit';
 
 export interface RemarkMdxFrontmatterOptions {
   /**
@@ -35,11 +34,12 @@ export const remarkMdxFrontmatter: Attacher<[RemarkMdxFrontmatterOptions?]> =
       );
     }
 
-    visit(mdast, (node) => {
+    for (const node of mdast.children) {
       let data: unknown;
       const { value } = node as YAML;
       if (node.type === 'yaml') {
         data = load(value);
+        // @ts-expect-error A custom node type may be registered for TOML frontmatter data.
       } else if (node.type === 'toml') {
         data = parse(value);
       }
@@ -87,6 +87,6 @@ export const remarkMdxFrontmatter: Attacher<[RemarkMdxFrontmatterOptions?]> =
           },
         },
       });
-    });
+    }
     mdast.children.unshift(...imports);
   };

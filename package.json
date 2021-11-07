@@ -40,8 +40,7 @@
     "estree-util-is-identifier-name": "^1.0.0",
     "estree-util-value-to-estree": "^1.0.0",
     "js-yaml": "^4.0.0",
-    "toml": "^3.0.0",
-    "unist-util-visit": "^2.0.0"
+    "toml": "^3.0.0"
   },
   "devDependencies": {
     "@mdx-js/mdx": "^2.0.0-rc.1",
