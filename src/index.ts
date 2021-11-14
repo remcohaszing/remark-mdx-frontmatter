@@ -44,7 +44,7 @@ export const remarkMdxFrontmatter: Attacher<[RemarkMdxFrontmatterOptions?]> =
         data = parse(value);
       }
       if (data == null) {
-        return;
+        continue;
       }
       if (!name && typeof data !== 'object') {
         throw new Error(`Expected frontmatter data to be an object, got:\n${value}`);
