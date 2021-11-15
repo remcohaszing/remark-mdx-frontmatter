@@ -1,6 +1,6 @@
 {
   "name": "remark-mdx-frontmatter",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A remark plugin for converting frontmatter metadata into MDX exports",
   "main": "dist/index.js",
   "author": "Remco Haszing <remcohaszing@gmail.com>",
