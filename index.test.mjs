@@ -32,18 +32,7 @@ for (const name of tests) {
   });
 }
 
-test('unsupported types', (t) => {
-  t.throws(
-    () =>
-      compileSync('---\nunsupported value\n---\n', {
-        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
-        jsx: true,
-      }),
-    'Expected frontmatter data to be an object, got:\n---yaml\nunsupported value\n---',
-  );
-  t.end();
-});
-
+// Behavior slightly changed: option does not throw if no data is exported
 test('invalid name', (t) => {
   t.throws(
     () =>
