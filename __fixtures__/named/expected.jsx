@@ -9,9 +9,9 @@ export const frontmatter = {
           "numbers": 42,
           "booleans": true,
           "null": null,
-          "dates": new Date(1444435200000),
-          "datetimes": new Date(1444471200000),
-          "timezones": new Date(1444438800000),
+          "dates": "2015-10-10T00:00:00.000Z",
+          "datetimes": "2015-10-10T10:00:00.000Z",
+          "timezones": "2015-10-10T01:00:00.000Z",
           "arrays": ["of", "items"]
         }
       }

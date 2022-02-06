@@ -1,18 +1,65 @@
+import { parse as acornParse } from 'acorn';
+import { Program } from 'estree';
 import { name as isValidIdentifierName } from 'estree-util-is-identifier-name';
-import { valueToEstree } from 'estree-util-value-to-estree';
-import { load } from 'js-yaml';
+import { load as parseYaml } from 'js-yaml';
 import { Root, YAML } from 'mdast';
 import { MDXJSEsm } from 'mdast-util-mdx';
-import { parse } from 'toml';
+import { parse as parseToml } from 'toml';
 import { Attacher } from 'unified';
+
+type FrontMatterRecord = Record<string, unknown>;
 
 export interface RemarkMdxFrontmatterOptions {
   /**
    * If specified, the YAML data is exported using this name. Otherwise, each
    * object key will be used as an export name.
+   *
+   * We keep this for shorthand and backward compatibility. You can also use
+   * `renderer` option for more control
    */
   name?: string;
+  /**
+   * A custom renderer for the frontmatter export.
+   */
+  renderer?: RemarkMdxFrontmatterRenderer;
 }
+
+export type RemarkMdxFrontmatterRenderer = (
+  data: Record<string, unknown>,
+  options: RemarkMdxFrontmatterOptions,
+) => string;
+
+const getValue = (node: YAML): FrontMatterRecord | null => {
+  if (node.type === 'yaml') {
+    return parseYaml(node.value) as FrontMatterRecord;
+  }
+
+  if (node.type === 'toml') {
+    return parseToml(node.value) as FrontMatterRecord;
+  }
+
+  return null;
+};
+
+const defaultRenderer: RemarkMdxFrontmatterRenderer = (data, { name }) => {
+  if (name) {
+    if (!isValidIdentifierName(name)) {
+      throw new Error(
+        `If name is specified, this should be a valid identifier name, got: ${JSON.stringify(
+          name,
+        )}`,
+      );
+    }
+
+    return `export const ${name} = ${JSON.stringify(data, null, 2)}`;
+  }
+
+  //
+  return Object.entries(data)
+    .filter(([k]) => isValidIdentifierName(k))
+    .map(([k, v]) => `export const ${k} = ${JSON.stringify(v, null, 2)};`)
+    .join('\n');
+};
 
 /**
  * A remark plugin to expose frontmatter data as named exports.
@@ -21,72 +68,37 @@ export interface RemarkMdxFrontmatterOptions {
  * @returns A unified transformer.
  */
 export const remarkMdxFrontmatter: Attacher<[RemarkMdxFrontmatterOptions?]> =
-  ({ name } = {}) =>
+  (options = {}) =>
   (ast) => {
-    const mdast = ast as Root;
-    const imports: MDXJSEsm[] = [];
+    const renderer = options?.renderer ?? defaultRenderer;
 
-    if (name && !isValidIdentifierName(name)) {
-      throw new Error(
-        `If name is specified, this should be a valid identifier name, got: ${JSON.stringify(
-          name,
-        )}`,
-      );
-    }
+    for (const [index, oldVal] of (ast as Root).children.entries()) {
+      const value = getValue(oldVal as YAML);
 
-    for (const node of mdast.children) {
-      let data: unknown;
-      const { value } = node as YAML;
-      if (node.type === 'yaml') {
-        data = load(value);
-        // @ts-expect-error A custom node type may be registered for TOML frontmatter data.
-      } else if (node.type === 'toml') {
-        data = parse(value);
-      }
-      if (data == null) {
+      if (!value) {
         continue;
       }
-      if (!name && typeof data !== 'object') {
-        throw new Error(`Expected frontmatter data to be an object, got:\n${value}`);
-      }
 
-      imports.push({
+      const renderedString = renderer(value, options);
+
+      const { body } = acornParse(renderedString, {
+        sourceType: 'module',
+        ecmaVersion: 'latest',
+      }) as unknown as Program;
+
+      const newVal: MDXJSEsm = {
         type: 'mdxjsEsm',
         value: '',
         data: {
           estree: {
             type: 'Program',
             sourceType: 'module',
-            body: [
-              {
-                type: 'ExportNamedDeclaration',
-                source: null,
-                specifiers: [],
-                declaration: {
-                  type: 'VariableDeclaration',
-                  kind: 'const',
-                  declarations: Object.entries(name ? { [name]: data } : (data as object)).map(
-                    ([identifier, val]) => {
-                      if (!isValidIdentifierName(identifier)) {
-                        throw new Error(
-                          `Frontmatter keys should be valid identifiers, got: ${JSON.stringify(
-                            identifier,
-                          )}`,
-                        );
-                      }
-                      return {
-                        type: 'VariableDeclarator',
-                        id: { type: 'Identifier', name: identifier },
-                        init: valueToEstree(val),
-                      };
-                    },
-                  ),
-                },
-              },
-            ],
+            body,
           },
         },
-      });
+      };
+
+      // eslint-disable-next-line no-param-reassign
+      (ast as Root).children[index] = newVal;
     }
-    mdast.children.unshift(...imports);
   };

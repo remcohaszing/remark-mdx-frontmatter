@@ -1,14 +1,16 @@
 /*@jsxRuntime automatic @jsxImportSource react*/
-export const title = "Hello frontmatter", index = 1, nested = {
+export const title = "Hello frontmatter";
+export const index = 1;
+export const nested = {
   "data": {
     "structure": {
       "including": {
         "numbers": 42,
         "booleans": true,
         "null": null,
-        "dates": new Date(1444435200000),
-        "datetimes": new Date(1444471200000),
-        "timezones": new Date(1444438800000),
+        "dates": "2015-10-10T00:00:00.000Z",
+        "datetimes": "2015-10-10T10:00:00.000Z",
+        "timezones": "2015-10-10T01:00:00.000Z",
         "arrays": ["of", "items"]
       }
     }

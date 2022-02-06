@@ -30,13 +30,14 @@
     "dist"
   ],
   "engines": {
-    "node": ">=12.2.0"
+    "node": ">=12.17.0"
   },
   "scripts": {
     "prepack": "tsc --project tsconfig.build.json",
     "test": "ts-node index.test.mjs"
   },
   "dependencies": {
+    "acorn": "^8.7.0",
     "estree-util-is-identifier-name": "^1.0.0",
     "estree-util-value-to-estree": "^1.0.0",
     "js-yaml": "^4.0.0",

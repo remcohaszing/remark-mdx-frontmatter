@@ -36,7 +36,7 @@ for (const name of tests) {
 test('invalid name', (t) => {
   t.throws(
     () =>
-      compileSync('---\n\n---\n', {
+      compileSync('---\nfoo: bar\n---\n', {
         remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: 'Not valid' }]],
         jsx: true,
       }),
@@ -45,14 +45,17 @@ test('invalid name', (t) => {
   t.end();
 });
 
-test('invalid yaml key', (t) => {
-  t.throws(
-    () =>
-      compileSync('---\ninvalid identifier:\n---\n', {
-        remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter]],
-        jsx: true,
-      }),
-    'Frontmatter keys should be valid identifiers, got: "invalid identifier"',
-  );
-  t.end();
-});
+/*
+  Behavior has changed: invalid keys are discarded
+  test('invalid yaml key', (t) => {
+    t.throws(
+      () =>
+        compileSync('---\ninvalid identifier:\n---\n', {
+          remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter]],
+          jsx: true,
+        }),
+      'Frontmatter keys should be valid identifiers, got: "invalid identifier"',
+    );
+    t.end();
+  });
+*/
