@@ -15,7 +15,8 @@ for (const name of tests) {
     const path = join('__fixtures__', name);
     const input = await fs.readFile(join(path, 'input.md'));
     const expected = join(path, 'expected.jsx');
-    const options = JSON.parse(await fs.readFile(join(path, 'options.json')));
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const { default: options } = await import(`./__fixtures__/${name}/options.mjs`);
     const { value } = await compile(input, {
       remarkPlugins: [
         [remarkFrontmatter, ['yaml', 'toml']],
