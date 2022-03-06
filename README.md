@@ -63,6 +63,39 @@ the YAML content is exported as one single export using this name. This is usefu
 top-level frontmatter nodes other than objects, or if the frontmatter content contains keys which
 aren’t valid JavaScript identifiers.
 
+Example of using `name` in Next.js:
+next.config.mjs
+```
+import nextMdx from '@next/mdx'
+import remarkFrontmatter from 'remark-frontmatter'
+import { remarkMdxFrontmatter } from 'remark-mdx-frontmatter'
+
+const withMDX = nextMdx({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [
+      remarkFrontmatter,
+      [remarkMdxFrontmatter, { name: 'frontmatter' }]
+    ],
+    rehypePlugins: []
+  }
+})
+
+export default withMDX({
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx']
+})
+
+```
+With such configuration it's possible to use `frontmatter` in `*.mdx` file as follows:
+
+```
+---
+title: Hi, World!
+---
+
+# {frontmatter.title}
+```
+
 [github actions badge]:
   https://github.com/remcohaszing/remark-mdx-frontmatter/actions/workflows/ci.yml/badge.svg
 [github actions]: https://github.com/remcohaszing/remark-mdx-frontmatter/actions/workflows/ci.yml
