@@ -1,7 +1,9 @@
 /*@jsxRuntime automatic @jsxImportSource react*/
+function _createMdxContent(props) {
+  return <></>;
+}
 function MDXContent(props = {}) {
-  const _components = Object.assign({}, props.components), {wrapper: MDXLayout} = _components;
-  const _content = <></>;
-  return MDXLayout ? <MDXLayout {...props}>{_content}</MDXLayout> : _content;
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? <MDXLayout {...props}><_createMdxContent {...props} /></MDXLayout> : _createMdxContent(props);
 }
 export default MDXContent;

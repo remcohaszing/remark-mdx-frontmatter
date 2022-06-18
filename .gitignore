@@ -1,5 +1,7 @@
 coverage/
 dist/
 node_modules/
+*.d.ts
+*.js
 *.log
 *.tgz

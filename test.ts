@@ -1,21 +1,21 @@
 import { promises as fs, readdirSync } from 'fs';
-import { createRequire } from 'module';
 import { join } from 'path';
 
 import { compile, compileSync } from '@mdx-js/mdx';
 import remarkFrontmatter from 'remark-frontmatter';
-import test from 'tape';
+import { test } from 'uvu';
+import { equal, throws } from 'uvu/assert';
 
-const { remarkMdxFrontmatter } = createRequire(import.meta.url)('./src/index.ts');
+import { remarkMdxFrontmatter } from './index.js';
 
 const tests = readdirSync('__fixtures__');
 
 for (const name of tests) {
-  test(name, async (t) => {
+  test(name, async () => {
     const path = join('__fixtures__', name);
     const input = await fs.readFile(join(path, 'input.md'));
     const expected = join(path, 'expected.jsx');
-    const options = JSON.parse(await fs.readFile(join(path, 'options.json')));
+    const options = JSON.parse(await fs.readFile(join(path, 'options.json'), 'utf8'));
     const { value } = await compile(input, {
       remarkPlugins: [
         [remarkFrontmatter, ['yaml', 'toml']],
@@ -26,25 +26,23 @@ for (const name of tests) {
     if (process.argv.includes('--write')) {
       await fs.writeFile(expected, value);
     }
-    t.equal(value, await fs.readFile(expected, 'utf8'));
-    t.end();
+    equal(value, await fs.readFile(expected, 'utf8'));
   });
 }
 
-test('unsupported types', (t) => {
-  t.throws(
+test('unsupported types', () => {
+  throws(
     () =>
       compileSync('---\nunsupported value\n---\n', {
         remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
         jsx: true,
       }),
-    'Expected frontmatter data to be an object, got:\n---yaml\nunsupported value\n---',
+    'Expected frontmatter data to be an object, got:\nunsupported value',
   );
-  t.end();
 });
 
-test('invalid name', (t) => {
-  t.throws(
+test('invalid name', () => {
+  throws(
     () =>
       compileSync('---\n\n---\n', {
         remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: 'Not valid' }]],
@@ -52,11 +50,10 @@ test('invalid name', (t) => {
       }),
     'If name is specified, this should be a valid identifier name, got: "Not valid"',
   );
-  t.end();
 });
 
-test('invalid yaml key', (t) => {
-  t.throws(
+test('invalid yaml key', () => {
+  throws(
     () =>
       compileSync('---\ninvalid identifier:\n---\n', {
         remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter]],
@@ -64,5 +61,6 @@ test('invalid yaml key', (t) => {
       }),
     'Frontmatter keys should be valid identifiers, got: "invalid identifier"',
   );
-  t.end();
 });
+
+test.run();

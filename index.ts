@@ -2,9 +2,9 @@ import { name as isValidIdentifierName } from 'estree-util-is-identifier-name';
 import { valueToEstree } from 'estree-util-value-to-estree';
 import { load } from 'js-yaml';
 import { Root, YAML } from 'mdast';
-import { MDXJSEsm } from 'mdast-util-mdx';
+import { MdxjsEsm } from 'mdast-util-mdx';
 import { parse } from 'toml';
-import { Attacher } from 'unified';
+import { Plugin } from 'unified';
 
 export interface RemarkMdxFrontmatterOptions {
   /**
@@ -20,11 +20,10 @@ export interface RemarkMdxFrontmatterOptions {
  * @param options - Optional options to configure the output.
  * @returns A unified transformer.
  */
-export const remarkMdxFrontmatter: Attacher<[RemarkMdxFrontmatterOptions?]> =
+export const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> =
   ({ name } = {}) =>
   (ast) => {
-    const mdast = ast as Root;
-    const imports: MDXJSEsm[] = [];
+    const imports: MdxjsEsm[] = [];
 
     if (name && !isValidIdentifierName(name)) {
       throw new Error(
@@ -34,7 +33,7 @@ export const remarkMdxFrontmatter: Attacher<[RemarkMdxFrontmatterOptions?]> =
       );
     }
 
-    for (const node of mdast.children) {
+    for (const node of ast.children) {
       let data: unknown;
       const { value } = node as YAML;
       if (node.type === 'yaml') {
@@ -88,5 +87,5 @@ export const remarkMdxFrontmatter: Attacher<[RemarkMdxFrontmatterOptions?]> =
         },
       });
     }
-    mdast.children.unshift(...imports);
+    ast.children.unshift(...imports);
   };
