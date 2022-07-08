@@ -15,6 +15,51 @@ export interface RemarkMdxFrontmatterOptions {
 }
 
 /**
+ * Create an MDX ESM export AST node from an object.
+ *
+ * Each key of the object will be used as the export name.
+ *
+ * @param object - The object to create an export node for.
+ * @returns The MDX ESM node.
+ */
+function createExport(object: object): MdxjsEsm {
+  return {
+    type: 'mdxjsEsm',
+    value: '',
+    data: {
+      estree: {
+        type: 'Program',
+        sourceType: 'module',
+        body: [
+          {
+            type: 'ExportNamedDeclaration',
+            specifiers: [],
+            declaration: {
+              type: 'VariableDeclaration',
+              kind: 'const',
+              declarations: Object.entries(object).map(([identifier, val]) => {
+                if (!isValidIdentifierName(identifier)) {
+                  throw new Error(
+                    `Frontmatter keys should be valid identifiers, got: ${JSON.stringify(
+                      identifier,
+                    )}`,
+                  );
+                }
+                return {
+                  type: 'VariableDeclarator',
+                  id: { type: 'Identifier', name: identifier },
+                  init: valueToEstree(val),
+                };
+              }),
+            },
+          },
+        ],
+      },
+    },
+  };
+}
+
+/**
  * A remark plugin to expose frontmatter data as named exports.
  *
  * @param options - Optional options to configure the output.
@@ -49,43 +94,12 @@ export const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> 
         throw new Error(`Expected frontmatter data to be an object, got:\n${value}`);
       }
 
-      imports.push({
-        type: 'mdxjsEsm',
-        value: '',
-        data: {
-          estree: {
-            type: 'Program',
-            sourceType: 'module',
-            body: [
-              {
-                type: 'ExportNamedDeclaration',
-                source: null,
-                specifiers: [],
-                declaration: {
-                  type: 'VariableDeclaration',
-                  kind: 'const',
-                  declarations: Object.entries(name ? { [name]: data } : (data as object)).map(
-                    ([identifier, val]) => {
-                      if (!isValidIdentifierName(identifier)) {
-                        throw new Error(
-                          `Frontmatter keys should be valid identifiers, got: ${JSON.stringify(
-                            identifier,
-                          )}`,
-                        );
-                      }
-                      return {
-                        type: 'VariableDeclarator',
-                        id: { type: 'Identifier', name: identifier },
-                        init: valueToEstree(val),
-                      };
-                    },
-                  ),
-                },
-              },
-            ],
-          },
-        },
-      });
+      imports.push(createExport(name ? { [name]: data } : (data as object)));
     }
+
+    if (name && !imports.length) {
+      imports.push(createExport({ [name]: undefined }));
+    }
+
     ast.children.unshift(...imports);
   };
