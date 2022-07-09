@@ -1,10 +1,12 @@
 import { name as isValidIdentifierName } from 'estree-util-is-identifier-name';
 import { valueToEstree } from 'estree-util-value-to-estree';
 import { load } from 'js-yaml';
-import { Root, YAML } from 'mdast';
+import { Literal, Root } from 'mdast';
 import { MdxjsEsm } from 'mdast-util-mdx';
 import { parse } from 'toml';
 import { Plugin } from 'unified';
+
+type FrontmatterParsers = Record<string, (value: string) => unknown>;
 
 export interface RemarkMdxFrontmatterOptions {
   /**
@@ -12,6 +14,17 @@ export interface RemarkMdxFrontmatterOptions {
    * object key will be used as an export name.
    */
   name?: string;
+
+  /**
+   * A mapping of node types to parsers.
+   *
+   * Each key represents a frontmatter node type. The value is a function that accepts the
+   * frontmatter data as a string, and returns the parsed data.
+   *
+   * By default `yaml` nodes will be parsed using [`js-yaml`](https://github.com/nodeca/js-yaml)
+   * and `toml` nodes using [`toml`](https://github.com/BinaryMuse/toml-node).
+   */
+  parsers?: FrontmatterParsers;
 }
 
 /**
@@ -65,9 +78,17 @@ function createExport(object: object): MdxjsEsm {
  * @param options - Optional options to configure the output.
  * @returns A unified transformer.
  */
-export const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> =
-  ({ name } = {}) =>
-  (ast) => {
+export const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
+  name,
+  parsers,
+} = {}) => {
+  const allParsers: FrontmatterParsers = {
+    yaml: load,
+    toml: parse,
+    ...parsers,
+  };
+
+  return (ast) => {
     const imports: MdxjsEsm[] = [];
 
     if (name && !isValidIdentifierName(name)) {
@@ -79,14 +100,17 @@ export const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> 
     }
 
     for (const node of ast.children) {
-      let data: unknown;
-      const { value } = node as YAML;
-      if (node.type === 'yaml') {
-        data = load(value);
-        // @ts-expect-error A custom node type may be registered for TOML frontmatter data.
-      } else if (node.type === 'toml') {
-        data = parse(value);
+      if (!Object.hasOwnProperty.call(allParsers, node.type)) {
+        continue;
       }
+
+      const parser = allParsers[node.type];
+      if (!parser) {
+        continue;
+      }
+
+      const { value } = node as Literal;
+      const data = parser(value);
       if (data == null) {
         continue;
       }
@@ -103,3 +127,4 @@ export const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> 
 
     ast.children.unshift(...imports);
   };
+};

@@ -30,6 +30,30 @@ for (const name of tests) {
   });
 }
 
+test('custom parser', async () => {
+  const { value } = await compile('---\nfoo: bar\n---\n', {
+    remarkPlugins: [
+      remarkFrontmatter,
+      [remarkMdxFrontmatter, { parsers: { yaml: (content: string) => ({ content }) } }],
+    ],
+    jsx: true,
+  });
+  equal(
+    value,
+    `/*@jsxRuntime automatic @jsxImportSource react*/
+export const content = "foo: bar";
+function _createMdxContent(props) {
+  return <></>;
+}
+function MDXContent(props = {}) {
+  const {wrapper: MDXLayout} = props.components || ({});
+  return MDXLayout ? <MDXLayout {...props}><_createMdxContent {...props} /></MDXLayout> : _createMdxContent(props);
+}
+export default MDXContent;
+`,
+  );
+});
+
 test('unsupported types', () => {
   throws(
     () =>
