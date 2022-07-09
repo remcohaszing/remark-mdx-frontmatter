@@ -1,13 +1,15 @@
 # remark-mdx-frontmatter
 
-[![github actions][github actions badge]][github actions] [![npm][npm badge]][npm]
-[![prettier][prettier badge]][prettier]
+[![github actions](https://github.com/remcohaszing/remark-mdx-frontmatter/actions/workflows/ci.yml/badge.svg)](https://github.com/remcohaszing/remark-mdx-frontmatter/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/remark-mdx-frontmatter)](https://www.npmjs.com/package/remark-mdx-frontmatter)
+[![prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io)
 
-> A [remark][] plugin for converting frontmatter metadata into MDX exports
+A [remark](https://remark.js.org) plugin for converting frontmatter metadata into MDX exports
 
 ## Installation
 
-This package depends on the AST output by [remark-frontmatter][]
+This package depends on the AST output by
+[remark-frontmatter](https://github.com/remarkjs/remark-frontmatter)
 
 ```sh
 npm install remark-frontmatter remark-mdx-frontmatter
@@ -63,12 +65,13 @@ the YAML content is exported as one single export using this name. This is usefu
 top-level frontmatter nodes other than objects, or if the frontmatter content contains keys which
 aren’t valid JavaScript identifiers.
 
-[github actions badge]:
-  https://github.com/remcohaszing/remark-mdx-frontmatter/actions/workflows/ci.yml/badge.svg
-[github actions]: https://github.com/remcohaszing/remark-mdx-frontmatter/actions/workflows/ci.yml
-[npm badge]: https://img.shields.io/npm/v/remark-mdx-frontmatter
-[npm]: https://www.npmjs.com/package/remark-mdx-frontmatter
-[prettier badge]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg
-[prettier]: https://prettier.io
-[remark]: https://remark.js.org
-[remark-frontmatter]: https://github.com/remarkjs/remark-frontmatter
+#### `parsers`
+
+A mapping A mapping of node types to parsers. Each key represents a frontmatter node type. The value
+is a function that accepts the frontmatter data as a string, and returns the parsed data. By default
+`yaml` nodes will be parsed using [`js-yaml`](https://github.com/nodeca/js-yaml) and `toml` nodes
+using [`toml`](https://github.com/BinaryMuse/toml-node).
+
+### License
+
+[MIT](LICENSE.md) @ [Remco Haszing](https://github.com/remcohaszing)
