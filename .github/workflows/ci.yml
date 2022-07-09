@@ -17,7 +17,7 @@ jobs:
       - run: npm ci
       - run: npx eslint .
 
-  jest:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -27,7 +27,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm i npm@latest
+      - run: npm install --global npm@latest
       - run: npm ci
       - run: npm test
       - uses: codecov/codecov-action@v3
