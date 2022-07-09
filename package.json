@@ -31,7 +31,7 @@
     "index.d.ts"
   ],
   "engines": {
-    "node": ">=12.2.0"
+    "node": ">=14.0.0"
   },
   "scripts": {
     "prepack": "tsc --noEmit false",
