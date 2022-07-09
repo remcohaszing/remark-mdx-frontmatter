@@ -5,10 +5,7 @@ export const title = "Hello frontmatter", index = 1, nested = {
       "including": {
         "numbers": 42,
         "booleans": true,
-        "null": null,
-        "dates": new Date(1444435200000),
-        "datetimes": new Date(1444471200000),
-        "timezones": new Date(1444438800000),
+        "": null,
         "arrays": ["of", "items"]
       }
     }

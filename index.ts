@@ -1,10 +1,10 @@
 import { name as isValidIdentifierName } from 'estree-util-is-identifier-name';
 import { valueToEstree } from 'estree-util-value-to-estree';
-import { load } from 'js-yaml';
 import { Literal, Root } from 'mdast';
 import { MdxjsEsm } from 'mdast-util-mdx';
-import { parse } from 'toml';
+import { parse as parseToml } from 'toml';
 import { Plugin } from 'unified';
+import { parse as parseYaml } from 'yaml';
 
 type FrontmatterParsers = Record<string, (value: string) => unknown>;
 
@@ -83,8 +83,8 @@ export const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> 
   parsers,
 } = {}) => {
   const allParsers: FrontmatterParsers = {
-    yaml: load,
-    toml: parse,
+    yaml: parseYaml,
+    toml: parseToml,
     ...parsers,
   };
 
