@@ -5,6 +5,7 @@
   "author": "Remco Haszing <remcohaszing@gmail.com>",
   "license": "MIT",
   "type": "module",
+  "exports": "./index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/remcohaszing/remark-mdx-frontmatter.git"
