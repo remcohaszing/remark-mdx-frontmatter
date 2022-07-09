@@ -105,9 +105,6 @@ const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
       }
 
       const parser = allParsers[node.type];
-      if (!parser) {
-        continue;
-      }
 
       const { value } = node as Literal;
       const data = parser(value);

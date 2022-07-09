@@ -35,10 +35,11 @@
   },
   "scripts": {
     "prepack": "tsc --noEmit false",
-    "test": "tsx ./test.ts"
+    "test": "c8 tsx ./test.ts"
   },
   "dependencies": {
     "@types/mdast": "^3.0.0",
+    "c8": "^7.11.3",
     "estree-util-is-identifier-name": "^2.0.0",
     "estree-util-value-to-estree": "^1.0.0",
     "toml": "^3.0.0",
