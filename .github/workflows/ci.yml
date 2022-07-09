@@ -10,44 +10,45 @@ jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16
-      - run: yarn --frozen-lockfile
-      - run: yarn eslint .
+          node-version: 18
+      - run: npm ci
+      - run: npx eslint .
 
   jest:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12, 14, 16]
+        node-version: [12, 14, 16, 18]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn --frozen-lockfile
-      - run: yarn test --coverage
-      - uses: codecov/codecov-action@v2
+      - run: npm i npm@latest
+      - run: npm ci
+      - run: npm test
+      - uses: codecov/codecov-action@v3
         if: ${{ matrix.node-version == 16 }}
 
   prettier:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16
-      - run: yarn --frozen-lockfile
-      - run: yarn prettier --check .
+          node-version: 18
+      - run: npm ci
+      - run: npx prettier --check .
 
   tsc:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 16
-      - run: yarn --frozen-lockfile
-      - run: yarn tsc
+          node-version: 18
+      - run: npm ci
+      - run: npx tsc
