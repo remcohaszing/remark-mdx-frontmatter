@@ -78,7 +78,7 @@ function createExport(object: object): MdxjsEsm {
  * @param options - Optional options to configure the output.
  * @returns A unified transformer.
  */
-export const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
+const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
   name,
   parsers,
 } = {}) => {
@@ -128,3 +128,5 @@ export const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> 
     ast.children.unshift(...imports);
   };
 };
+
+export default remarkMdxFrontmatter;

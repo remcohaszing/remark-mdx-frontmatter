@@ -6,7 +6,7 @@ import remarkFrontmatter from 'remark-frontmatter';
 import { test } from 'uvu';
 import { equal, throws } from 'uvu/assert';
 
-import { remarkMdxFrontmatter } from './index.js';
+import remarkMdxFrontmatter from './index.js';
 
 const tests = readdirSync('__fixtures__');
 
