@@ -40,7 +40,6 @@
   },
   "dependencies": {
     "@types/mdast": "^3.0.0",
-    "c8": "^7.11.3",
     "estree-util-is-identifier-name": "^2.0.0",
     "estree-util-value-to-estree": "^1.0.0",
     "toml": "^3.0.0",
@@ -51,6 +50,7 @@
     "@mdx-js/mdx": "^2.0.0",
     "@types/node": "*",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "c8": "^7.0.0",
     "eslint": "^8.0.0",
     "eslint-config-remcohaszing": "^4.0.0",
     "eslint-plugin-jsx-a11y": "^6.0.0",
