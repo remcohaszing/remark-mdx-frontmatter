@@ -32,7 +32,7 @@ export interface RemarkMdxFrontmatterOptions {
  *
  * Each key of the object will be used as the export name.
  *
- * @param object - The object to create an export node for.
+ * @param object The object to create an export node for.
  * @returns The MDX ESM node.
  */
 function createExport(object: object): MdxjsEsm {
@@ -75,7 +75,7 @@ function createExport(object: object): MdxjsEsm {
 /**
  * A remark plugin to expose frontmatter data as named exports.
  *
- * @param options - Optional options to configure the output.
+ * @param options Optional options to configure the output.
  * @returns A unified transformer.
  */
 const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
