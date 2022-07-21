@@ -21,8 +21,8 @@ export interface RemarkMdxFrontmatterOptions {
    * Each key represents a frontmatter node type. The value is a function that accepts the
    * frontmatter data as a string, and returns the parsed data.
    *
-   * By default `yaml` nodes will be parsed using [`js-yaml`](https://github.com/nodeca/js-yaml)
-   * and `toml` nodes using [`toml`](https://github.com/BinaryMuse/toml-node).
+   * By default `yaml` nodes will be parsed using [`yaml`](https://github.com/eemeli/yaml) and
+   * `toml` nodes using [`toml`](https://github.com/BinaryMuse/toml-node).
    */
   parsers?: FrontmatterParsers;
 }
