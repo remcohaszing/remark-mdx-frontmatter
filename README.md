@@ -34,13 +34,13 @@ Rest of document
 The following script:
 
 ```js
-import { readFileSync } from 'fs';
+import { readFile } from 'fs/promises';
 
+import { compile } from '@mdx-js/mdx';
 import remarkFrontmatter from 'remark-frontmatter';
-import { remarkMdxFrontmatter } from 'remark-mdx-frontmatter';
-import { compileSync } from 'xdm';
+import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 
-const { contents } = compileSync(readFileSync('example.mdx'), {
+const { contents } = await compile(await readFile('example.mdx'), {
   jsx: true,
   remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
 });
