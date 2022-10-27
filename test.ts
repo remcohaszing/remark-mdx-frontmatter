@@ -1,5 +1,4 @@
-import { promises as fs, readdirSync } from 'fs';
-import { join } from 'path';
+import { readdir, readFile, writeFile } from 'node:fs/promises';
 
 import { compile, compileSync } from '@mdx-js/mdx';
 import remarkFrontmatter from 'remark-frontmatter';
@@ -8,14 +7,15 @@ import { equal, throws } from 'uvu/assert';
 
 import remarkMdxFrontmatter from './index.js';
 
-const tests = readdirSync('__fixtures__');
+const fixturesDir = new URL('__fixtures__/', import.meta.url);
+const tests = await readdir(fixturesDir);
 
 for (const name of tests) {
   test(name, async () => {
-    const path = join('__fixtures__', name);
-    const input = await fs.readFile(join(path, 'input.md'));
-    const expected = join(path, 'expected.jsx');
-    const options = JSON.parse(await fs.readFile(join(path, 'options.json'), 'utf8'));
+    const url = new URL(`${name}/`, fixturesDir);
+    const input = await readFile(new URL('input.md', url));
+    const expected = new URL('expected.jsx', url);
+    const options = JSON.parse(await readFile(new URL('options.json', url), 'utf8'));
     const { value } = await compile(input, {
       remarkPlugins: [
         [remarkFrontmatter, ['yaml', 'toml']],
@@ -24,9 +24,9 @@ for (const name of tests) {
       jsx: true,
     });
     if (process.argv.includes('--write')) {
-      await fs.writeFile(expected, value);
+      await writeFile(expected, value);
     }
-    equal(value, await fs.readFile(expected, 'utf8'));
+    equal(value, await readFile(expected, 'utf8'));
   });
 }
 

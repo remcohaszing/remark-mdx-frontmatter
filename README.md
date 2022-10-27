@@ -34,7 +34,7 @@ Rest of document
 The following script:
 
 ```js
-import { readFile } from 'fs/promises';
+import { readFile } from 'node:fs/promises';
 
 import { compile } from '@mdx-js/mdx';
 import remarkFrontmatter from 'remark-frontmatter';
