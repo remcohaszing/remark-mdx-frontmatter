@@ -73,6 +73,10 @@ is a function that accepts the frontmatter data as a string, and returns the par
 `yaml` nodes will be parsed using [`yaml`](https://github.com/eemeli/yaml) and `toml` nodes using
 [`toml`](https://github.com/BinaryMuse/toml-node).
 
+### `keysToMapToImports`
+
+Sometimes it's very useful to map some keys to imports (specifically, things like assets). This allows frontmatter to import assets and include those.
+
 ### License
 
 [MIT](LICENSE.md) @ [Remco Haszing](https://github.com/remcohaszing)

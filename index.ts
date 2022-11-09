@@ -25,6 +25,17 @@ export interface RemarkMdxFrontmatterOptions {
    * `toml` nodes using [`toml`](https://github.com/BinaryMuse/toml-node).
    */
   parsers?: FrontmatterParsers;
+
+  /**
+   * A series of keys to map to imports.
+   */
+  importSpecifiers?: {
+    /**
+     * The key to match against the frontmatter object. If the key is found,
+     * the value will be used as the import specifier.
+     */
+    key: string;
+  }[];
 }
 
 /**
@@ -73,12 +84,57 @@ function createExport(object: object): MdxjsEsm {
 }
 
 /**
+ * Create an MDX ESM export AST node from an object.
+ *
+ * Each key of the object will be used as the export name.
+ *
+ * @param src Where to import from
+ * @param local The name to import into
+ * @returns The MDX ESM node.
+ */
+function createImportExport(src: string, local: string): MdxjsEsm {
+  return {
+    type: 'mdxjsEsm',
+    value: '',
+    data: {
+      estree: {
+        type: 'Program',
+        sourceType: 'module',
+        body: [
+          {
+            type: 'ExportNamedDeclaration',
+            specifiers: [
+              {
+                type: 'ExportSpecifier',
+                local: {
+                  type: 'Identifier',
+                  name: 'default',
+                },
+                exported: {
+                  type: 'Identifier',
+                  name: local,
+                },
+              },
+            ],
+            source: {
+              type: 'Literal',
+              value: src,
+            },
+          },
+        ],
+      },
+    },
+  };
+}
+
+/**
  * A remark plugin to expose frontmatter data as named exports.
  *
  * @param options Optional options to configure the output.
  * @returns A unified transformer.
  */
 const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
+  importSpecifiers = [],
   name,
   parsers,
 } = {}) => {
@@ -107,7 +163,8 @@ const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
       const parser = allParsers[node.type];
 
       const { value } = node as Literal;
-      const data = parser(value);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const data = parser(value) as Record<string, any> | null;
       if (data == null) {
         continue;
       }
@@ -115,7 +172,14 @@ const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
         throw new Error(`Expected frontmatter data to be an object, got:\n${value}`);
       }
 
-      imports.push(createExport(name ? { [name]: data } : (data as object)));
+      for (const { key } of importSpecifiers) {
+        if (data[key]) {
+          imports.push(createImportExport(data[key], key));
+          delete data[key];
+        }
+      }
+
+      imports.push(createExport(name ? { [name]: data } : data));
     }
 
     if (name && !imports.length) {
