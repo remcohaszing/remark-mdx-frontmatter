@@ -1,15 +1,13 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
     "declaration": true,
     "module": "node16",
-    "moduleResolution": "node16",
     "noEmit": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2018",
-    "lib": ["es2018"],
+    "target": "es2021",
+    "lib": ["es2021"],
     "types": ["mdast-util-mdx", "node"]
   }
 }
