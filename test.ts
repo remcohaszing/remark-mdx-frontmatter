@@ -1,9 +1,9 @@
+import assert from 'node:assert/strict'
 import { readdir, readFile, writeFile } from 'node:fs/promises'
+import { test } from 'node:test'
 
 import { compile, compileSync } from '@mdx-js/mdx'
 import remarkFrontmatter from 'remark-frontmatter'
-import { test } from 'uvu'
-import { equal, throws } from 'uvu/assert'
 
 import remarkMdxFrontmatter from './index.js'
 
@@ -26,7 +26,7 @@ for (const name of tests) {
     if (process.argv.includes('--write')) {
       await writeFile(expected, value)
     }
-    equal(value, await readFile(expected, 'utf8'))
+    assert.equal(value, await readFile(expected, 'utf8'))
   })
 }
 
@@ -38,7 +38,7 @@ test('custom parser', async () => {
     ],
     jsx: true
   })
-  equal(
+  assert.equal(
     value,
     `/*@jsxRuntime automatic @jsxImportSource react*/
 export const frontmatter = {
@@ -57,7 +57,7 @@ export default MDXContent;
 })
 
 test('invalid name', () => {
-  throws(
+  assert.throws(
     () =>
       compileSync('---\n\n---\n', {
         remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: 'Not valid' }]],
@@ -66,5 +66,3 @@ test('invalid name', () => {
     'If name is specified, this should be a valid identifier name, got: "Not valid"'
   )
 })
-
-test.run()
