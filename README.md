@@ -34,32 +34,33 @@ Rest of document
 The following script:
 
 ```js
-import { readFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises'
 
-import { compile } from '@mdx-js/mdx';
-import remarkFrontmatter from 'remark-frontmatter';
-import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
+import { compile } from '@mdx-js/mdx'
+import remarkFrontmatter from 'remark-frontmatter'
+import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 
 const { contents } = await compile(await readFile('example.mdx'), {
   jsx: true,
-  remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
-});
-console.log(contents);
+  remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter]
+})
+console.log(contents)
 ```
 
 Roughly yields:
 
 ```jsx
-export const hello = 'frontmatter';
+export const hello = 'frontmatter'
 
 export default function MDXContent() {
-  return <p>Rest of document</p>;
+  return <p>Rest of document</p>
 }
 ```
 
 ### Options
 
-- `name`: The identifier name of the variable the frontmatter data is assigned to. (Default: `frontmatter`).
+- `name`: The identifier name of the variable the frontmatter data is assigned to. (Default:
+  `frontmatter`).
 - `parsers`: A mapping A mapping of node types to parsers. Each key represents a frontmatter node
   type. The value is a function that accepts the frontmatter data as a string, and returns the
   parsed data. By default `yaml` nodes will be parsed using [`yaml`](https://github.com/eemeli/yaml)

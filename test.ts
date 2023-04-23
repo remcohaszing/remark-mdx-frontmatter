@@ -1,43 +1,43 @@
-import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { readdir, readFile, writeFile } from 'node:fs/promises'
 
-import { compile, compileSync } from '@mdx-js/mdx';
-import remarkFrontmatter from 'remark-frontmatter';
-import { test } from 'uvu';
-import { equal, throws } from 'uvu/assert';
+import { compile, compileSync } from '@mdx-js/mdx'
+import remarkFrontmatter from 'remark-frontmatter'
+import { test } from 'uvu'
+import { equal, throws } from 'uvu/assert'
 
-import remarkMdxFrontmatter from './index.js';
+import remarkMdxFrontmatter from './index.js'
 
-const fixturesDir = new URL('__fixtures__/', import.meta.url);
-const tests = await readdir(fixturesDir);
+const fixturesDir = new URL('__fixtures__/', import.meta.url)
+const tests = await readdir(fixturesDir)
 
 for (const name of tests) {
   test(name, async () => {
-    const url = new URL(`${name}/`, fixturesDir);
-    const input = await readFile(new URL('input.md', url));
-    const expected = new URL('expected.jsx', url);
-    const options = JSON.parse(await readFile(new URL('options.json', url), 'utf8'));
+    const url = new URL(`${name}/`, fixturesDir)
+    const input = await readFile(new URL('input.md', url))
+    const expected = new URL('expected.jsx', url)
+    const options = JSON.parse(await readFile(new URL('options.json', url), 'utf8'))
     const { value } = await compile(input, {
       remarkPlugins: [
         [remarkFrontmatter, ['yaml', 'toml']],
-        [remarkMdxFrontmatter, options],
+        [remarkMdxFrontmatter, options]
       ],
-      jsx: true,
-    });
+      jsx: true
+    })
     if (process.argv.includes('--write')) {
-      await writeFile(expected, value);
+      await writeFile(expected, value)
     }
-    equal(value, await readFile(expected, 'utf8'));
-  });
+    equal(value, await readFile(expected, 'utf8'))
+  })
 }
 
 test('custom parser', async () => {
   const { value } = await compile('---\nfoo: bar\n---\n', {
     remarkPlugins: [
       remarkFrontmatter,
-      [remarkMdxFrontmatter, { parsers: { yaml: (content: string) => ({ content }) } }],
+      [remarkMdxFrontmatter, { parsers: { yaml: (content: string) => ({ content }) } }]
     ],
-    jsx: true,
-  });
+    jsx: true
+  })
   equal(
     value,
     `/*@jsxRuntime automatic @jsxImportSource react*/
@@ -52,19 +52,19 @@ function MDXContent(props = {}) {
   return MDXLayout ? <MDXLayout {...props}><_createMdxContent {...props} /></MDXLayout> : _createMdxContent(props);
 }
 export default MDXContent;
-`,
-  );
-});
+`
+  )
+})
 
 test('invalid name', () => {
   throws(
     () =>
       compileSync('---\n\n---\n', {
         remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: 'Not valid' }]],
-        jsx: true,
+        jsx: true
       }),
-    'If name is specified, this should be a valid identifier name, got: "Not valid"',
-  );
-});
+    'If name is specified, this should be a valid identifier name, got: "Not valid"'
+  )
+})
 
-test.run();
+test.run()
