@@ -1,8 +1,8 @@
 import { name as isIdentifierName } from 'estree-util-is-identifier-name';
 import { valueToEstree } from 'estree-util-value-to-estree';
-import { Literal, Root } from 'mdast';
+import { type Literal, type Root } from 'mdast';
 import { parse as parseToml } from 'toml';
-import { Plugin } from 'unified';
+import { type Plugin } from 'unified';
 import { parse as parseYaml } from 'yaml';
 
 type FrontmatterParsers = Record<string, (value: string) => unknown>;
