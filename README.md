@@ -7,6 +7,14 @@
 
 A [remark](https://remark.js.org) plugin for converting frontmatter metadata into MDX exports
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [API](#api)
+  - [Options](#options)
+- [License](#license)
+
 ## Installation
 
 This package depends on the AST output by
@@ -56,6 +64,10 @@ export default function MDXContent() {
   return <p>Rest of document</p>
 }
 ```
+
+## API
+
+The default export is a [remark](https://remark.js.org) plugin.
 
 ### Options
 
