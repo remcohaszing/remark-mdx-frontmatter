@@ -65,6 +65,6 @@ export default function MDXContent() {
   parsed data. By default `yaml` nodes will be parsed using [`yaml`](https://github.com/eemeli/yaml)
   and `toml` nodes using [`toml`](https://github.com/BinaryMuse/toml-node).
 
-### License
+## License
 
 [MIT](LICENSE.md) @ [Remco Haszing](https://github.com/remcohaszing)
