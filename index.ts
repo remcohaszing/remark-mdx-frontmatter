@@ -48,7 +48,7 @@ const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
     }
 
     let data: unknown;
-    const node = ast.children.find((child) => Object.hasOwnProperty.call(allParsers, child.type));
+    const node = ast.children.find((child) => Object.hasOwn(allParsers, child.type));
 
     if (node) {
       const parser = allParsers[node.type];
