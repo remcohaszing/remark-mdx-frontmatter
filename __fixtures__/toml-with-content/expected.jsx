@@ -1,5 +1,6 @@
 /*@jsxRuntime automatic @jsxImportSource react*/
 export const frontmatter = {
+  __proto__: null,
   "title": "Hello TOML"
 };
 function _createMdxContent(props) {
