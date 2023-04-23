@@ -6,13 +6,8 @@
   "license": "MIT",
   "type": "module",
   "exports": "./index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/remcohaszing/remark-mdx-frontmatter.git"
-  },
-  "bugs": {
-    "url": "https://github.com/remcohaszing/remark-mdx-frontmatter/issues"
-  },
+  "repository": "remcohaszing/remark-mdx-frontmatter",
+  "bugs": "https://github.com/remcohaszing/remark-mdx-frontmatter/issues",
   "homepage": "https://github.com/remcohaszing/remark-mdx-frontmatter#readme",
   "funding": "https://github.com/sponsors/remcohaszing",
   "keywords": [
@@ -25,7 +20,6 @@
     "remark-plugin",
     "toml",
     "unified",
-    "xdm",
     "yaml"
   ],
   "files": [
