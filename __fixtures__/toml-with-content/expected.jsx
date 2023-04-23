@@ -1,5 +1,7 @@
 /*@jsxRuntime automatic @jsxImportSource react*/
-export const title = "Hello TOML";
+export const frontmatter = {
+  "title": "Hello TOML"
+};
 function _createMdxContent(props) {
   const _components = Object.assign({
     h1: "h1",

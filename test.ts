@@ -41,7 +41,9 @@ test('custom parser', async () => {
   equal(
     value,
     `/*@jsxRuntime automatic @jsxImportSource react*/
-export const content = "foo: bar";
+export const frontmatter = {
+  "content": "foo: bar"
+};
 function _createMdxContent(props) {
   return <></>;
 }
@@ -54,17 +56,6 @@ export default MDXContent;
   );
 });
 
-test('unsupported types', () => {
-  throws(
-    () =>
-      compileSync('---\nunsupported value\n---\n', {
-        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
-        jsx: true,
-      }),
-    'Expected frontmatter data to be an object, got:\nunsupported value',
-  );
-});
-
 test('invalid name', () => {
   throws(
     () =>
@@ -73,17 +64,6 @@ test('invalid name', () => {
         jsx: true,
       }),
     'If name is specified, this should be a valid identifier name, got: "Not valid"',
-  );
-});
-
-test('invalid yaml key', () => {
-  throws(
-    () =>
-      compileSync('---\ninvalid identifier:\n---\n', {
-        remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter]],
-        jsx: true,
-      }),
-    'Frontmatter keys should be valid identifiers, got: "invalid identifier"',
   );
 });
 

@@ -59,19 +59,11 @@ export default function MDXContent() {
 
 ### Options
 
-#### `name`
-
-By default, every frontmatter object key is turned into a JavaScript export. If `name` is specified,
-the YAML content is exported as one single export using this name. This is useful if you wish to use
-top-level frontmatter nodes other than objects, or if the frontmatter content contains keys which
-aren’t valid JavaScript identifiers.
-
-#### `parsers`
-
-A mapping A mapping of node types to parsers. Each key represents a frontmatter node type. The value
-is a function that accepts the frontmatter data as a string, and returns the parsed data. By default
-`yaml` nodes will be parsed using [`yaml`](https://github.com/eemeli/yaml) and `toml` nodes using
-[`toml`](https://github.com/BinaryMuse/toml-node).
+- `name`: The identifier name of the variable the frontmatter data is assigned to. (Default: `frontmatter`).
+- `parsers`: A mapping A mapping of node types to parsers. Each key represents a frontmatter node
+  type. The value is a function that accepts the frontmatter data as a string, and returns the
+  parsed data. By default `yaml` nodes will be parsed using [`yaml`](https://github.com/eemeli/yaml)
+  and `toml` nodes using [`toml`](https://github.com/BinaryMuse/toml-node).
 
 ### License
 

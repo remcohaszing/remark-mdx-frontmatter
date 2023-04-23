@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2018",
-    "lib": []
+    "lib": ["es2018"],
+    "types": ["mdast-util-mdx", "node"]
   }
 }
