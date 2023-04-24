@@ -58,7 +58,9 @@ console.log(contents)
 Roughly yields:
 
 ```jsx
-export const hello = 'frontmatter'
+export const frontmatter = {
+  hello: 'frontmatter'
+}
 
 export default function MDXContent() {
   return <p>Rest of document</p>
