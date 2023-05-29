@@ -82,4 +82,4 @@ The default export is a [remark](https://remark.js.org) plugin.
 
 ## License
 
-[MIT](LICENSE.md) @ [Remco Haszing](https://github.com/remcohaszing)
+[MIT](LICENSE.md) © [Remco Haszing](https://github.com/remcohaszing)
