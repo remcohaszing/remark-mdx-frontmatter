@@ -1,9 +1,9 @@
 # remark-mdx-frontmatter
 
 [![github actions](https://github.com/remcohaszing/remark-mdx-frontmatter/actions/workflows/ci.yaml/badge.svg)](https://github.com/remcohaszing/remark-mdx-frontmatter/actions/workflows/ci.yaml)
-[![npm](https://img.shields.io/npm/v/remark-mdx-frontmatter)](https://www.npmjs.com/package/remark-mdx-frontmatter)
-[![prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io)
 [![codecov](https://codecov.io/gh/remcohaszing/remark-mdx-frontmatter/branch/main/graph/badge.svg)](https://codecov.io/gh/remcohaszing/remark-mdx-frontmatter)
+[![npm version](https://img.shields.io/npm/v/remark-mdx-frontmatter)](https://www.npmjs.com/package/remark-mdx-frontmatter)
+[![npm downloads](https://img.shields.io/npm/dm/remark-mdx-frontmatter)](https://www.npmjs.com/package/remark-mdx-frontmatter)
 
 A [remark](https://remark.js.org) plugin for converting frontmatter metadata into MDX exports
 
