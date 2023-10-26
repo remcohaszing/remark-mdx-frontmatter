@@ -7,7 +7,7 @@ import remarkFrontmatter from 'remark-frontmatter'
 
 import remarkMdxFrontmatter from './index.js'
 
-const fixturesDir = new URL('__fixtures__/', import.meta.url)
+const fixturesDir = new URL('fixtures/', import.meta.url)
 const tests = await readdir(fixturesDir)
 
 for (const name of tests) {
