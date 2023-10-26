@@ -13,6 +13,7 @@ A [remark](https://remark.js.org) plugin for converting frontmatter metadata int
 - [Usage](#usage)
 - [API](#api)
   - [Options](#options)
+- [Compatibility](#compatibility)
 - [License](#license)
 
 ## Installation
@@ -79,6 +80,10 @@ The default export is a [remark](https://remark.js.org) plugin.
   type. The value is a function that accepts the frontmatter data as a string, and returns the
   parsed data. By default `yaml` nodes will be parsed using [`yaml`](https://github.com/eemeli/yaml)
   and `toml` nodes using [`toml`](https://github.com/BinaryMuse/toml-node).
+
+## Compatibility
+
+This project is compatible with Node.js 16 or greater.
 
 ## License
 

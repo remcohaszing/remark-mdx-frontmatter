@@ -26,9 +26,6 @@
     "index.js",
     "index.d.ts"
   ],
-  "engines": {
-    "node": ">=16.0.0"
-  },
   "scripts": {
     "prepack": "tsc --noEmit false",
     "test": "c8 tsx ./test.ts"
