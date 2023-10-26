@@ -7,7 +7,6 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "lib": ["es2022"],
-    "types": ["mdast-util-mdx", "node"]
+    "lib": ["es2022"]
   }
 }
