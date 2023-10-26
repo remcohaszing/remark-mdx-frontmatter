@@ -15,7 +15,7 @@ for (const name of tests) {
     const url = new URL(`${name}/`, fixturesDir)
     const input = await readFile(new URL('input.md', url))
     const expected = new URL('expected.jsx', url)
-    const options = JSON.parse(await readFile(new URL('options.json', url), 'utf8'))
+    const options: unknown = JSON.parse(await readFile(new URL('options.json', url), 'utf8'))
     const { value } = await compile(input, {
       remarkPlugins: [
         [remarkFrontmatter, ['yaml', 'toml']],
