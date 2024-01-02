@@ -5,7 +5,8 @@
   "author": "Remco Haszing <remcohaszing@gmail.com>",
   "license": "MIT",
   "type": "module",
-  "exports": "./index.js",
+  "exports": "./dist/remark-mdx-frontmatter.js",
+  "main": "./dist/remark-mdx-frontmatter.js",
   "repository": "remcohaszing/remark-mdx-frontmatter",
   "bugs": "https://github.com/remcohaszing/remark-mdx-frontmatter/issues",
   "homepage": "https://github.com/remcohaszing/remark-mdx-frontmatter#readme",
@@ -23,12 +24,14 @@
     "yaml"
   ],
   "files": [
-    "index.js",
-    "index.d.ts"
+    "dist",
+    "src",
+    "!test*"
   ],
   "scripts": {
-    "prepack": "tsc --noEmit false",
-    "test": "c8 tsx ./test.ts"
+    "prepack": "tsc --build",
+    "pretest": "tsc --build",
+    "test": "c8 node --test"
   },
   "dependencies": {
     "@types/mdast": "^4.0.0",
@@ -51,7 +54,6 @@
     "remark-cli": "^11.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-preset-remcohaszing": "^2.0.0",
-    "tsx": "^3.0.0",
     "typescript": "^5.0.0"
   }
 }

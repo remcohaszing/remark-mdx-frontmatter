@@ -4,10 +4,9 @@ import { test } from 'node:test'
 
 import { compile, compileSync } from '@mdx-js/mdx'
 import remarkFrontmatter from 'remark-frontmatter'
+import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 
-import remarkMdxFrontmatter from './index.js'
-
-const fixturesDir = new URL('fixtures/', import.meta.url)
+const fixturesDir = new URL('../fixtures/', import.meta.url)
 const tests = await readdir(fixturesDir)
 
 for (const name of tests) {
