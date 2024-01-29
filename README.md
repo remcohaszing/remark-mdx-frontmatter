@@ -49,11 +49,11 @@ import { compile } from '@mdx-js/mdx'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 
-const { contents } = await compile(await readFile('example.mdx'), {
+const { value } = await compile(await readFile('example.mdx'), {
   jsx: true,
   remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter]
 })
-console.log(contents)
+console.log(value)
 ```
 
 Roughly yields:
