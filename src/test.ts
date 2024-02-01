@@ -61,6 +61,6 @@ test('invalid name', () => {
         remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: 'Not valid' }]],
         jsx: true
       }),
-    'If name is specified, this should be a valid identifier name, got: "Not valid"'
+    /Name should be a valid identifier, got: "Not valid"/
   )
 })

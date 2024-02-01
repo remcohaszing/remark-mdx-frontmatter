@@ -37,7 +37,7 @@ const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
   parsers
 } = {}) => {
   if (!isIdentifierName(name)) {
-    throw new Error(`Name this should be a valid identifier, got: ${JSON.stringify(name)}`)
+    throw new Error(`Name should be a valid identifier, got: ${JSON.stringify(name)}`)
   }
 
   const allParsers: FrontmatterParsers = {
