@@ -1,33 +1,27 @@
 import assert from 'node:assert/strict'
-import { readdir, readFile, writeFile } from 'node:fs/promises'
 import { test } from 'node:test'
 
 import { compile, compileSync } from '@mdx-js/mdx'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
+import { assertEqual, testFixturesDirectory } from 'snapshot-fixtures'
 
-const fixturesDir = new URL('../fixtures/', import.meta.url)
-const tests = await readdir(fixturesDir)
-
-for (const name of tests) {
-  test(name, async () => {
-    const url = new URL(`${name}/`, fixturesDir)
-    const input = await readFile(new URL('input.md', url))
-    const expected = new URL('expected.jsx', url)
-    const options: unknown = JSON.parse(await readFile(new URL('options.json', url), 'utf8'))
-    const { value } = await compile(input, {
-      remarkPlugins: [
-        [remarkFrontmatter, ['yaml', 'toml']],
-        [remarkMdxFrontmatter, options]
-      ],
-      jsx: true
-    })
-    if (process.argv.includes('--write')) {
-      await writeFile(expected, value)
+testFixturesDirectory({
+  directory: new URL('../fixtures', import.meta.url),
+  prettier: true,
+  write: true,
+  tests: {
+    'expected.jsx'(file, options) {
+      return compile(file, {
+        remarkPlugins: [
+          [remarkFrontmatter, ['yaml', 'toml']],
+          [remarkMdxFrontmatter, options]
+        ],
+        jsx: true
+      })
     }
-    assert.equal(value, await readFile(expected, 'utf8'))
-  })
-}
+  }
+})
 
 test('custom parser', async () => {
   const { value } = await compile('---\nfoo: bar\n---\n', {
@@ -37,8 +31,9 @@ test('custom parser', async () => {
     ],
     jsx: true
   })
-  assert.equal(
-    value,
+
+  assertEqual(
+    String(value),
     `/*@jsxRuntime automatic @jsxImportSource react*/
 export const frontmatter = {
   "content": "foo: bar"
