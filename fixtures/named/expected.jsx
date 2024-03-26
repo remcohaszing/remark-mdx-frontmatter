@@ -1,4 +1,5 @@
-/*@jsxRuntime automatic @jsxImportSource react*/
+/*@jsxRuntime automatic*/
+/*@jsxImportSource react*/
 export const frontmatter = {
   title: 'Hello frontmatter',
   index: 1,

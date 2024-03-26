@@ -34,7 +34,8 @@ test('custom parser', async () => {
 
   assertEqual(
     String(value),
-    `/*@jsxRuntime automatic @jsxImportSource react*/
+    `/*@jsxRuntime automatic*/
+/*@jsxImportSource react*/
 export const frontmatter = {
   "content": "foo: bar"
 };

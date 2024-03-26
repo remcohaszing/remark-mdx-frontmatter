@@ -1,4 +1,5 @@
-/*@jsxRuntime automatic @jsxImportSource react*/
+/*@jsxRuntime automatic*/
+/*@jsxImportSource react*/
 export const frontmatter = undefined
 function _createMdxContent(props) {
   return <></>
