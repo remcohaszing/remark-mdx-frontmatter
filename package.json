@@ -31,7 +31,7 @@
   "scripts": {
     "prepack": "tsc --build",
     "pretest": "tsc --build",
-    "test": "c8 node dist/test.js"
+    "test": "c8 node --test"
   },
   "dependencies": {
     "@types/mdast": "^4.0.0",
