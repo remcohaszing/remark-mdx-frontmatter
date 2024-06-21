@@ -75,7 +75,7 @@ const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
                   {
                     type: 'VariableDeclarator',
                     id: { type: 'Identifier', name },
-                    init: valueToEstree(data)
+                    init: valueToEstree(data, { preserveReferences: true })
                   }
                 ]
               }
