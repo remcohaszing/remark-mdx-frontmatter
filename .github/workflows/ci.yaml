@@ -31,24 +31,6 @@ jobs:
           name: package
           path: '*.tgz'
 
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version:
-          - 18
-          - 20
-          - 22
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm test
-      - uses: codecov/codecov-action@v3
-        if: ${{ matrix.node-version == 22 }}
-
   prettier:
     runs-on: ubuntu-latest
     steps:
@@ -68,6 +50,24 @@ jobs:
           node-version: 22
       - run: npm ci
       - run: npx remark --frail .
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
+          - 18
+          - 20
+          - 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm test
+      - uses: codecov/codecov-action@v3
+        if: ${{ matrix.node-version == 22 }}
 
   release:
     runs-on: ubuntu-latest
