@@ -1,7 +1,6 @@
-import assert from 'node:assert/strict'
 import { test } from 'node:test'
 
-import { compile, compileSync } from '@mdx-js/mdx'
+import { compile } from '@mdx-js/mdx'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { assertEqual, testFixturesDirectory } from 'snapshot-fixtures'
@@ -47,16 +46,5 @@ export default function MDXContent(props = {}) {
   return MDXLayout ? <MDXLayout {...props}><_createMdxContent {...props} /></MDXLayout> : _createMdxContent(props);
 }
 `
-  )
-})
-
-test('invalid name', () => {
-  assert.throws(
-    () =>
-      compileSync('---\n\n---\n', {
-        remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: 'Not valid' }]],
-        jsx: true
-      }),
-    /Name should be a valid identifier, got: "Not valid"/
   )
 })

@@ -1,13 +1,13 @@
-import { name as isIdentifierName } from 'estree-util-is-identifier-name'
 import { valueToEstree } from 'estree-util-value-to-estree'
 import { type Literal, type Root } from 'mdast'
 import { parse as parseToml } from 'toml'
 import { type Plugin } from 'unified'
+import { define } from 'unist-util-mdx-define'
 import { parse as parseYaml } from 'yaml'
 
 type FrontmatterParsers = Record<string, (value: string) => unknown>
 
-export interface RemarkMdxFrontmatterOptions {
+export interface RemarkMdxFrontmatterOptions extends define.Options {
   /**
    * If specified, the YAML data is exported using this name. Otherwise, each
    * object key will be used as an export name.
@@ -34,19 +34,16 @@ export interface RemarkMdxFrontmatterOptions {
  */
 const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
   name = 'frontmatter',
-  parsers
+  parsers,
+  ...options
 } = {}) => {
-  if (!isIdentifierName(name)) {
-    throw new Error(`Name should be a valid identifier, got: ${JSON.stringify(name)}`)
-  }
-
   const allParsers: FrontmatterParsers = {
     yaml: parseYaml,
     toml: parseToml,
     ...parsers
   }
 
-  return (ast) => {
+  return (ast, file) => {
     let data: unknown
     const node = ast.children.find((child) => Object.hasOwn(allParsers, child.type))
 
@@ -57,33 +54,7 @@ const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
       data = parser(value)
     }
 
-    ast.children.unshift({
-      type: 'mdxjsEsm',
-      value: '',
-      data: {
-        estree: {
-          type: 'Program',
-          sourceType: 'module',
-          body: [
-            {
-              type: 'ExportNamedDeclaration',
-              specifiers: [],
-              declaration: {
-                type: 'VariableDeclaration',
-                kind: 'const',
-                declarations: [
-                  {
-                    type: 'VariableDeclarator',
-                    id: { type: 'Identifier', name },
-                    init: valueToEstree(data, { preserveReferences: true })
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
-    })
+    define(ast, file, { [name]: valueToEstree(data, { preserveReferences: true }) }, options)
   }
 }
 
