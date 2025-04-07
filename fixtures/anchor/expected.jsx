@@ -1,14 +1,13 @@
 /*@jsxRuntime automatic*/
 /*@jsxImportSource react*/
-export const frontmatter = (() => {
-  const $0 = {
+export const frontmatter = ((
+  $0 = {
     title: 'Hello frontmatter'
   }
-  return {
-    original: $0,
-    reference: $0
-  }
-})()
+) => ({
+  original: $0,
+  reference: $0
+}))()
 function _createMdxContent(props) {
   return <></>
 }
