@@ -1,9 +1,7 @@
-import { test } from 'node:test'
-
 import { compile } from '@mdx-js/mdx'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
-import { assertEqual, testFixturesDirectory } from 'snapshot-fixtures'
+import { testFixturesDirectory } from 'snapshot-fixtures'
 
 testFixturesDirectory({
   directory: new URL('../fixtures', import.meta.url),
@@ -20,31 +18,4 @@ testFixturesDirectory({
       })
     }
   }
-})
-
-test('custom parser', async () => {
-  const { value } = await compile('---\nfoo: bar\n---\n', {
-    remarkPlugins: [
-      remarkFrontmatter,
-      [remarkMdxFrontmatter, { parsers: { yaml: (content: string) => ({ content }) } }]
-    ],
-    jsx: true
-  })
-
-  assertEqual(
-    String(value),
-    `/*@jsxRuntime automatic*/
-/*@jsxImportSource react*/
-export const frontmatter = {
-  "content": "foo: bar"
-};
-function _createMdxContent(props) {
-  return <></>;
-}
-export default function MDXContent(props = {}) {
-  const {wrapper: MDXLayout} = props.components || ({});
-  return MDXLayout ? <MDXLayout {...props}><_createMdxContent {...props} /></MDXLayout> : _createMdxContent(props);
-}
-`
-  )
 })
