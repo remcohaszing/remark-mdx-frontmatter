@@ -36,8 +36,10 @@ export interface RemarkMdxFrontmatterOptions extends define.Options {
 /**
  * A remark plugin to expose frontmatter data as named exports.
  *
- * @param options Optional options to configure the output.
- * @returns A unified transformer.
+ * @param options
+ *   Optional options to configure the output.
+ * @returns
+ *   A unified transformer.
  */
 const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
   name = 'frontmatter',
