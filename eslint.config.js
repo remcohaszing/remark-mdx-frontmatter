@@ -1,3 +1,3 @@
-import config from '@remcohaszing/eslint'
+import { define } from '@remcohaszing/eslint'
 
-export default [...config, { ignores: ['fixtures'] }]
+export default define([{ ignores: ['fixtures'] }])
