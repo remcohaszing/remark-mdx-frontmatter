@@ -82,6 +82,9 @@ The default export is a [remark](https://remark.js.org) plugin.
   parsed data. By default `yaml` nodes will be parsed using [`yaml`](https://github.com/eemeli/yaml)
   and `toml` nodes using [`toml`](https://github.com/BinaryMuse/toml-node).
 
+In addition it supports `unist-util-mdx-define`
+[options](https://github.com/remcohaszing/unist-util-mdx-define#options).
+
 ## Compatibility
 
 This project is compatible with Node.js 18 or greater.
