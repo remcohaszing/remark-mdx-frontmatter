@@ -74,6 +74,7 @@ The default export is a [remark](https://remark.js.org) plugin.
 
 ### Options
 
+- `default`: The default value to export if no frontmatter data is found. (Default: `undefined`).
 - `name`: The identifier name of the variable the frontmatter data is assigned to. (Default:
   `frontmatter`).
 - `parsers`: A mapping A mapping of node types to parsers. Each key represents a frontmatter node

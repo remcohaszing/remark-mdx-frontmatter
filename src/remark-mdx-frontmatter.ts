@@ -9,6 +9,13 @@ type FrontmatterParsers = Record<string, (value: string) => unknown>
 
 export interface RemarkMdxFrontmatterOptions extends define.Options {
   /**
+   * The default value to export if no frontmatter data is found.
+   *
+   * @default undefined
+   */
+  default?: unknown
+
+  /**
    * If specified, the YAML data is exported using this name. Otherwise, each
    * object key will be used as an export name.
    */
@@ -44,7 +51,7 @@ const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
   }
 
   return (ast, file) => {
-    let data: unknown
+    let data = options.default
     const node = ast.children.find((child) => Object.hasOwn(allParsers, child.type))
 
     if (node) {
