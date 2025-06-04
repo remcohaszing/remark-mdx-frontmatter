@@ -68,6 +68,8 @@ jobs:
       - run: npm test
       - uses: codecov/codecov-action@v5
         if: ${{ matrix.node-version == 22 }}
+      - uses: codecov/test-results-action@v1
+        if: ${{ matrix.node-version == 22 }}
 
   release:
     runs-on: ubuntu-latest
