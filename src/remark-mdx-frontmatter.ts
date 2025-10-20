@@ -1,7 +1,8 @@
+import type { Literal, Root } from 'mdast'
+import type { Plugin } from 'unified'
+
 import { valueToEstree } from 'estree-util-value-to-estree'
-import { type Literal, type Root } from 'mdast'
 import { parse as parseToml } from 'toml'
-import { type Plugin } from 'unified'
 import { define } from 'unist-util-mdx-define'
 import { parse as parseYaml } from 'yaml'
 
