@@ -31,7 +31,7 @@
   "scripts": {
     "prepack": "tsc --build",
     "pretest": "tsc --build",
-    "test": "c8 node --test --enable-source-maps --test-reporter junit --test-reporter-destination junit.xml --test-reporter spec --test-reporter-destination stdout"
+    "test": "c8 node --test --enable-source-maps --test-reporter junit --test-reporter-destination junit.xml --test-reporter spec --test-reporter-destination stdout dist/*.test.js"
   },
   "dependencies": {
     "@types/mdast": "^4.0.0",
