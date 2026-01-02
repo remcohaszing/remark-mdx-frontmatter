@@ -26,7 +26,7 @@
   "files": [
     "dist",
     "src",
-    "!test*"
+    "!*.test.*"
   ],
   "scripts": {
     "prepack": "tsc --build",
