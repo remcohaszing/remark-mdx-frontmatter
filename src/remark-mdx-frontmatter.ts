@@ -2,7 +2,7 @@ import type { Literal, Root } from 'mdast'
 import type { Plugin } from 'unified'
 
 import { valueToEstree } from 'estree-util-value-to-estree'
-import { parse as parseToml } from 'toml'
+import { parse as parseToml } from 'smol-toml'
 import { define } from 'unist-util-mdx-define'
 import { parse as parseYaml } from 'yaml'
 
