@@ -87,7 +87,7 @@ In addition it supports `unist-util-mdx-define`
 
 ## Compatibility
 
-This project is compatible with Node.js 18 or greater.
+This project is compatible with Node.js 22 or greater.
 
 ## License
 
