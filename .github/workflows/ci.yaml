@@ -91,4 +91,4 @@ jobs:
           registry-url: https://registry.npmjs.org
       - uses: actions/download-artifact@v8
         with: { name: package }
-      - run: npm publish *.tgz
+      - run: npm stage publish *.tgz
