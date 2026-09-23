@@ -4,12 +4,10 @@
     "declaration": true,
     "declarationMap": true,
     "module": "node16",
-    "noImplicitAny": true,
     "outDir": "dist",
     "rootDir": "src",
     "skipLibCheck": true,
     "sourceMap": true,
-    "strict": true,
     "target": "es2022",
     "lib": ["es2022"]
   }
