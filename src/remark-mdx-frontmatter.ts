@@ -8,30 +8,32 @@ import { parse as parseYaml } from 'yaml'
 
 type FrontmatterParsers = Record<string, (value: string) => unknown>
 
-export interface RemarkMdxFrontmatterOptions extends define.Options {
-  /**
-   * The default value to export if no frontmatter data is found.
-   *
-   * @default undefined
-   */
-  default?: unknown
+namespace remarkMdxFrontmatter {
+  export interface Options extends define.Options {
+    /**
+     * The default value to export if no frontmatter data is found.
+     *
+     * @default undefined
+     */
+    default?: unknown
 
-  /**
-   * If specified, the YAML data is exported using this name. Otherwise, each
-   * object key will be used as an export name.
-   */
-  name?: string
+    /**
+     * If specified, the YAML data is exported using this name. Otherwise, each
+     * object key will be used as an export name.
+     */
+    name?: string
 
-  /**
-   * A mapping of node types to parsers.
-   *
-   * Each key represents a frontmatter node type. The value is a function that accepts the
-   * frontmatter data as a string, and returns the parsed data.
-   *
-   * By default `yaml` nodes will be parsed using [`yaml`](https://github.com/eemeli/yaml) and
-   * `toml` nodes using [`toml`](https://github.com/BinaryMuse/toml-node).
-   */
-  parsers?: FrontmatterParsers
+    /**
+     * A mapping of node types to parsers.
+     *
+     * Each key represents a frontmatter node type. The value is a function that accepts the
+     * frontmatter data as a string, and returns the parsed data.
+     *
+     * By default `yaml` nodes will be parsed using [`yaml`](https://github.com/eemeli/yaml) and
+     * `toml` nodes using [`toml`](https://github.com/BinaryMuse/toml-node).
+     */
+    parsers?: FrontmatterParsers
+  }
 }
 
 /**
@@ -42,7 +44,7 @@ export interface RemarkMdxFrontmatterOptions extends define.Options {
  * @returns
  *   A unified transformer.
  */
-const remarkMdxFrontmatter: Plugin<[RemarkMdxFrontmatterOptions?], Root> = ({
+const remarkMdxFrontmatter: Plugin<[remarkMdxFrontmatter.Options?], Root> = ({
   name = 'frontmatter',
   parsers,
   ...options
